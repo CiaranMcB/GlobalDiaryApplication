@@ -23,7 +23,7 @@ import com.google.firebase.ktx.Firebase;
 
 public class Register extends AppCompatActivity {
 
-    TextInputEditText editTextEmail, editTextPassword;
+    TextInputEditText editTextEmail, editTextPassword, editTextPassword2;
     Button buttonReg;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
@@ -47,6 +47,7 @@ public class Register extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
+        editTextPassword2 = findViewById(R.id.password2);
         buttonReg = findViewById(R.id.btn_register);
         progressBar = findViewById(R.id.progressBar);
         textView = findViewById(R.id.loginNow);
@@ -64,9 +65,10 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password;
+                String email, password, password2;
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
+                password2 = String.valueOf(editTextPassword2.getText());
 
                 if (TextUtils.isEmpty(email)){
                     Toast.makeText(Register.this, "Enter email", Toast.LENGTH_SHORT).show();
@@ -76,11 +78,16 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this, "Enter password", Toast.LENGTH_SHORT).show();
                 }
 
+                if (TextUtils.isEmpty(password2)){
+                    Toast.makeText(Register.this, "Confirm Password", Toast.LENGTH_SHORT).show();
+                }
+
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
+                                if (password.equals(password2)) {
+
                                     progressBar.setVisibility(View.GONE);
                                     Toast.makeText(Register.this, "Account Created.",
                                             Toast.LENGTH_SHORT).show();
@@ -90,6 +97,8 @@ public class Register extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }
+
+
                         });
 
 

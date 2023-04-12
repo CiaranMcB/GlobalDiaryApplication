@@ -6,8 +6,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="15dp"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <TextView
         android:text="@string/register"
@@ -40,19 +39,6 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:hint="@string/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password2"
-            android:hint="Confirm Password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
