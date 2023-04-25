@@ -1,18 +1,15 @@
 package com.example.globaldiaryapp;
 
-import java.util.Map;
-
 public class Upload {
     private String mName;
     private String mImageUrl;
     private String mUserID;
-    private Object mTimestamp;
 
     public Upload() {
         //constructor needed
     }
 
-    public Upload(String name, String imageUrl, String userID, Object timestamp){
+    public Upload(String name, String imageUrl, String userID){
         if (name.trim().equals("")){
             name = "No Name";
         }
@@ -20,13 +17,7 @@ public class Upload {
         mName = name;
         mImageUrl = imageUrl;
         mUserID = userID;
-        mTimestamp = timestamp;
     }
-
-    public Upload(String trim, String toString, Map<String, String> timestamp) {
-
-    }
-
 
     public String getName() {
         return mName;
@@ -51,13 +42,4 @@ public class Upload {
     public void setUserID(String userID) {
         mUserID = userID;
     }
-
-    public Object getTimestamp() {
-        return mTimestamp;
-    }
-
-    public void setTimestamp(Object timestamp) {
-        mTimestamp = timestamp;
-    }
-
 }
