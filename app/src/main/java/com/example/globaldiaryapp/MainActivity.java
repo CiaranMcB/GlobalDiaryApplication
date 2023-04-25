@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -24,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.ktx.Firebase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mButtonChooseImage;
     private Button mButtonUpload;
+    private Button mButtonCalendar;
     private TextView mTextViewShowUploads;
     private EditText mEditTextFileName;
     private ImageView mImageView;
@@ -62,10 +65,12 @@ public class MainActivity extends AppCompatActivity {
 
         mButtonChooseImage = findViewById(R.id.btn_chooseImage);
         mButtonUpload = findViewById(R.id.btn_upload);
+        mButtonCalendar = findViewById(R.id.calendarView);
         mTextViewShowUploads = findViewById(R.id.textviewShowUploads);
         mEditTextFileName = findViewById(R.id.editText);
         mImageView = findViewById(R.id.imageView);
         mProgressBar = findViewById(R.id.progressBar);
+
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
@@ -75,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 openFileChooser();
 
+            }
+        });
+
+        mButtonCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CalendarView calendarView = findViewById(R.id.calendarView);
+                calendarView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -153,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             // so we use the system time in
             // milliseconds as it will always be unique
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
-            + "." + getFileExtension(mImageUri));
+                    + "." + getFileExtension(mImageUri));
 
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -171,18 +184,14 @@ public class MainActivity extends AppCompatActivity {
 
                             Toast.makeText(MainActivity.this, "Upload Successful", Toast.LENGTH_LONG).show();
 
-//                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-//                                    taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-//
-//                            String uploadId = mDatabaseRef.push().getKey();
-//                            mDatabaseRef.child(uploadId).setValue(upload);
-
+                            // Get the download URL from the uploaded file
                             Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                             while (!urlTask.isSuccessful());
                             Uri downloadUrl = urlTask.getResult();
 
-                            //Log.d(TAG, "onSuccess: firebase download url: " + downloadUrl.toString()); //use if testing...don't need this line.
-                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),downloadUrl.toString(), user.getUid());
+                            // Store the download URL and current server timestamp in Firebase Realtime Database
+                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                                    downloadUrl.toString(), ServerValue.TIMESTAMP);
 
                             String uploadId = mDatabaseRef.push().getKey();
                             mDatabaseRef.child(uploadId).setValue(upload);
@@ -198,17 +207,13 @@ public class MainActivity extends AppCompatActivity {
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-
-                            //A variable that gets transferred bytes in relation to total bytes
+                            // Update the progress bar
                             double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-
                             mProgressBar.setProgress((int) progress);
                         }
                     });
-
-        }
-        else{
-            Toast.makeText(this, "No File Selected", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -216,4 +221,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ImagesActivity.class);
         startActivity(intent);
     }
+
+
 }
