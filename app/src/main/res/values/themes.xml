@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.GlobalDiaryApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/brown_main</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -12,5 +12,28 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/robotoregular</item>
+        <item name="fontFamily">@font/robotoregular</item>
+
+    </style>
+    <style name="Theme.AppTheme" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/brown_main</item>
+        <item name="colorPrimaryVariant">@color/brown_main</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:fontFamily">@font/robotoregular</item>
+        <item name="fontFamily">@font/robotoregular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="ButtonBordered">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/btn_bordered</item>
+        <item name="android:insetLeft">15dp</item>
+        <item name="android:insetRight">15dp</item>
+        <item name="android:textColor">@color/brown_main</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>
