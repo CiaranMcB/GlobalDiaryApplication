@@ -36,17 +36,20 @@ import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
+
     FirebaseAuth auth;
     Button button;
-    TextView textView;
+    //TextView textView;
     FirebaseUser user;
+
+
     private static final int PICK_IMAGE_REQUEST = 1;
 
     String moodCheck;
 
     private Button mButtonChooseImage;
     private Button mButtonUpload;
-    private TextView mTextViewShowUploads;
+    // private TextView mTextViewShowUploads;
     private EditText mEditTextFileName;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         mButtonChooseImage = findViewById(R.id.btn_chooseImage);
         mButtonUpload = findViewById(R.id.btn_upload);
-        mTextViewShowUploads = findViewById(R.id.textviewShowUploads);
+        // mTextViewShowUploads = findViewById(R.id.textviewShowUploads); NOT NEEDED
         mEditTextFileName = findViewById(R.id.editText);
         mImageView = findViewById(R.id.imageView);
         mProgressBar = findViewById(R.id.progressBar);
@@ -135,16 +138,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
         mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openImagesActivity();
             }
         });
+        **/
 
         auth = FirebaseAuth.getInstance();
         button = findViewById(R.id.logout);
-        textView = findViewById(R.id.user_details);
+        //textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
 
         if (user == null){
@@ -153,8 +158,9 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         else{
-            textView.setText(user.getEmail());
+            //textView.setText(user.getEmail());
         }
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
     public void onRadioButtonClicked(View view) {
