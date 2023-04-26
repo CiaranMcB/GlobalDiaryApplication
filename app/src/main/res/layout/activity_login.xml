@@ -7,16 +7,46 @@
     android:gravity="center"
     android:padding="15dp"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".Login"
+
+    android:theme="@style/Theme.AppTheme">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="myDiary"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/robotoregular"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="........................................................."
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="normal"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:gravity="center"
+        android:text="Tuesday - 28.02.2023"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
         android:text="@string/login"
         android:textSize="25sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -52,13 +82,18 @@
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login"/>
+        android:background="@drawable/btn_bordered"
+        android:textColor="@color/brown_main"
+        android:textStyle="bold"
+        android:text = "Log In"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:textStyle="bold"
         android:textSize="20sp"
         android:gravity="center"
         android:layout_marginTop="20dp"
+        android:textColor="@color/brown_main"
         android:id="@+id/registerNow"
         android:text="@string/click_to_register"
         android:layout_width="match_parent"
