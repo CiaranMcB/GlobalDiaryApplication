@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
         mImageView = findViewById(R.id.imageView);
         mProgressBar = findViewById(R.id.progressBar);
 
-        calendar = (ImageButton) findViewById(R.id.calendar);
-        entryOverview = (ImageButton) findViewById(R.id.entryOverview);
-        writeEntry = (ImageButton) findViewById(R.id.writeEntry);
-        settings = (ImageButton) findViewById(R.id.settings);
+        calendar = findViewById(R.id.calendar);
+        entryOverview = findViewById(R.id.entryOverview);
+        writeEntry = findViewById(R.id.writeEntry);
+        settings = findViewById(R.id.settings);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
