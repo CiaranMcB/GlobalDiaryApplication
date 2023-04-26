@@ -12,6 +12,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -54,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
     private StorageTask mUploadTask;
 
+    ImageButton calendar;
+    ImageButton entryOverview;
+    ImageButton writeEntry;
+    ImageButton settings;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +73,41 @@ public class MainActivity extends AppCompatActivity {
         mImageView = findViewById(R.id.imageView);
         mProgressBar = findViewById(R.id.progressBar);
 
+        calendar = (ImageButton) findViewById(R.id.calendar);
+        entryOverview = (ImageButton) findViewById(R.id.entryOverview);
+        writeEntry = (ImageButton) findViewById(R.id.writeEntry);
+        settings = (ImageButton) findViewById(R.id.settings);
+
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+
+        // Event handlers for buttons
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CalendarView.class);
+                startActivity(intent);
+            }
+        });
+
+        entryOverview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ImagesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent intent = new Intent(getApplicationContext(), Settings.class);
+                //startActivity(intent);
+                Toast.makeText(MainActivity.this, "Clicked settings", Toast.LENGTH_LONG).show();
+            }
+        });
+
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
