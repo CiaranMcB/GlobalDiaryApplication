@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,12 +42,16 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     private static final int PICK_IMAGE_REQUEST = 1;
 
+    String moodCheck;
+
     private Button mButtonChooseImage;
     private Button mButtonUpload;
     private TextView mTextViewShowUploads;
     private EditText mEditTextFileName;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
+
+    int drawableID;
 
     private Uri mImageUri;
 
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     private StorageTask mUploadTask;
 
+    ImageView myMood;
     ImageButton calendar;
     ImageButton entryOverview;
     ImageButton settings;
@@ -72,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         mImageView = findViewById(R.id.imageView);
         mProgressBar = findViewById(R.id.progressBar);
 
+        myMood = findViewById(R.id.myMood);
         calendar = findViewById(R.id.calendar);
         entryOverview = findViewById(R.id.entryOverview);
         settings = findViewById(R.id.settings);
@@ -158,6 +165,38 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.happy:
+                if (checked)
+                    // use mood check to as reference in firebase
+                    moodCheck = "Happy";
+                    Toast.makeText(MainActivity.this, moodCheck, Toast.LENGTH_LONG).show();
+                    drawableID = getResources().getIdentifier("@drawable/sentiment_very", "drawable", getPackageName());
+                    myMood.setImageResource(drawableID);
+                    break;
+            case R.id.okay:
+                if (checked)
+                    // use mood check to as reference in firebase
+                    moodCheck = "Okay";
+                    Toast.makeText(MainActivity.this, moodCheck, Toast.LENGTH_LONG).show();
+                    drawableID = getResources().getIdentifier("@drawable/sentiment_neutral", "drawable", getPackageName());
+                    myMood.setImageResource(drawableID);
+                    break;
+            case R.id.sad:
+                if (checked)
+                    // use mood check to as reference in firebase
+                    moodCheck = "Sad";
+                    Toast.makeText(MainActivity.this, moodCheck, Toast.LENGTH_LONG).show();
+                    drawableID = getResources().getIdentifier("@drawable/sentiment_sad", "drawable", getPackageName());
+                    myMood.setImageResource(drawableID);
+                    break;
+        }
     }
 
     private void openFileChooser(){
