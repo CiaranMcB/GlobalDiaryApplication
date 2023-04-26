@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 public class CalendarView extends AppCompatActivity {
 
-    ImageButton calendar;
     ImageButton entryOverview;
     ImageButton writeEntry;
     ImageButton settings;
@@ -20,7 +19,6 @@ public class CalendarView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_view);
 
-        calendar = findViewById(R.id.calendar);
         entryOverview = findViewById(R.id.entryOverview);
         writeEntry = findViewById(R.id.writeEntry);
         settings = findViewById(R.id.settings);

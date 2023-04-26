@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
     ImageButton calendar;
     ImageButton entryOverview;
-    ImageButton writeEntry;
     ImageButton settings;
 
 
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
         calendar = findViewById(R.id.calendar);
         entryOverview = findViewById(R.id.entryOverview);
-        writeEntry = findViewById(R.id.writeEntry);
         settings = findViewById(R.id.settings);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
