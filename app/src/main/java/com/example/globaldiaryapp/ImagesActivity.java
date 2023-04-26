@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -30,10 +32,18 @@ public class ImagesActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;
     private List<Upload> mUploads;
 
+    ImageButton calendar;
+    ImageButton writeEntry;
+    ImageButton settings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images);
+
+        calendar = findViewById(R.id.calendar);
+        writeEntry = findViewById(R.id.writeEntry);
+        settings = findViewById(R.id.settings);
 
         mRecyclerView = findViewById(R.id.recyclerView);
         //Improves performance
@@ -67,5 +77,32 @@ public class ImagesActivity extends AppCompatActivity {
                 mProgressCircle.setVisibility(View.INVISIBLE);
             }
         });
+
+        // Event handlers for buttons
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CalendarView.class);
+                startActivity(intent);
+            }
+        });
+
+        writeEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent intent = new Intent(getApplicationContext(), Settings.class);
+                //startActivity(intent);
+                Toast.makeText(ImagesActivity.this, "Clicked settings", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }
