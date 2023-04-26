@@ -21,6 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.ktx.Firebase;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class Register extends AppCompatActivity {
 
     TextInputEditText editTextEmail, editTextPassword, editTextPassword2;
@@ -28,6 +32,7 @@ public class Register extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView textView;
+    TextView textDate;
 
     @Override
     public void onStart() {
@@ -44,6 +49,8 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        textDate = findViewById(R.id.date);
+        setDateText();
         mAuth = FirebaseAuth.getInstance();
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
@@ -104,5 +111,11 @@ public class Register extends AppCompatActivity {
 
             }
         });
+    }
+    private void setDateText(){
+        Calendar cal = Calendar.getInstance();
+        String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(cal.getTime());
+        String day = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(cal.getTime()) + " - " + date;
+        textDate.setText(day);
     }
 }

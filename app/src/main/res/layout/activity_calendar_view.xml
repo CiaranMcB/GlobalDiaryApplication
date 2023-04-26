@@ -4,11 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CalendarView">
+    tools:context=".CalendarView"
+    android:theme="@style/Theme.AppTheme">
 
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:dateTextAppearance="@style/Theme.AppTheme"
+        android:weekDayTextAppearance="@style/Theme.AppTheme"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
