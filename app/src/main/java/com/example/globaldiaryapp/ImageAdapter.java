@@ -1,10 +1,10 @@
 package com.example.globaldiaryapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> implements View.OnClickListener {
 
     private Context mContext;
     private List<Upload> mUploads;
@@ -58,11 +58,25 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         }
 
+        holder.itemView.setOnClickListener(this);
+        holder.itemView.setTag(position);
+
     }
 
     @Override
     public int getItemCount() {
         return mUploads.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = (int) v.getTag();
+        Upload upload = mUploads.get(position);
+
+        Intent intent = new Intent(mContext, editEntry.class);
+        intent.putExtra("name", upload.getName());
+        intent.putExtra("imageUrl", upload.getImageUrl());
+        mContext.startActivity(intent);
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
@@ -76,6 +90,4 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             imageView = itemView.findViewById(R.id.imageViewUpload);
         }
     }
-
-
 }

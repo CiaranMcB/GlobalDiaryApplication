@@ -12,8 +12,10 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser user;
     private static final int PICK_IMAGE_REQUEST = 1;
 
+    String moodCheck;
+
     private Button mButtonChooseImage;
     private Button mButtonUpload;
     private TextView mTextViewShowUploads;
@@ -47,12 +51,19 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImageView;
     private ProgressBar mProgressBar;
 
+    int drawableID;
+
     private Uri mImageUri;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
 
     private StorageTask mUploadTask;
+
+    ImageView myMood;
+    ImageButton calendar;
+    ImageButton entryOverview;
+    ImageButton settings;
 
 
     @Override
@@ -67,8 +78,41 @@ public class MainActivity extends AppCompatActivity {
         mImageView = findViewById(R.id.imageView);
         mProgressBar = findViewById(R.id.progressBar);
 
+        myMood = findViewById(R.id.myMood);
+        calendar = findViewById(R.id.calendar);
+        entryOverview = findViewById(R.id.entryOverview);
+        settings = findViewById(R.id.settings);
+
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+
+        // Event handlers for buttons
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), CalendarView.class);
+                startActivity(intent);
+            }
+        });
+
+        entryOverview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ImagesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent intent = new Intent(getApplicationContext(), Settings.class);
+                //startActivity(intent);
+                Toast.makeText(MainActivity.this, "Clicked settings", Toast.LENGTH_LONG).show();
+            }
+        });
+
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +167,38 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.happy:
+                if (checked)
+                    // use mood check to as reference in firebase
+                    moodCheck = "Happy";
+                    Toast.makeText(MainActivity.this, moodCheck, Toast.LENGTH_LONG).show();
+                    drawableID = getResources().getIdentifier("@drawable/sentiment_very", "drawable", getPackageName());
+                    myMood.setImageResource(drawableID);
+                    break;
+            case R.id.okay:
+                if (checked)
+                    // use mood check to as reference in firebase
+                    moodCheck = "Okay";
+                    Toast.makeText(MainActivity.this, moodCheck, Toast.LENGTH_LONG).show();
+                    drawableID = getResources().getIdentifier("@drawable/sentiment_neutral", "drawable", getPackageName());
+                    myMood.setImageResource(drawableID);
+                    break;
+            case R.id.sad:
+                if (checked)
+                    // use mood check to as reference in firebase
+                    moodCheck = "Sad";
+                    Toast.makeText(MainActivity.this, moodCheck, Toast.LENGTH_LONG).show();
+                    drawableID = getResources().getIdentifier("@drawable/sentiment_sad", "drawable", getPackageName());
+                    myMood.setImageResource(drawableID);
+                    break;
+        }
+    }
+
     private void openFileChooser(){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -153,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
             // so we use the system time in
             // milliseconds as it will always be unique
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
-            + "." + getFileExtension(mImageUri));
+                    + "." + getFileExtension(mImageUri));
 
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ImagesActivity">
-
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/header"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="horizontal"
         android:layout_weight="3"
-        android:paddingTop="20dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:layout_alignParentTop="true">
+        android:paddingTop="20dp">
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Entries Overview"
+            android:text="Calendar"
             android:textColor="#674fa4"
             android:gravity="center"
             android:textSize="32sp"
@@ -29,40 +27,21 @@
             />
 
     </LinearLayout>
-
+    <CalendarView
+        android:layout_weight="1"
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/header"
-        android:layout_above="@+id/footer">
-        <androidx.recyclerview.widget.RecyclerView
-            android:padding="20dp"
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-
-    </LinearLayout>
-    <ProgressBar
-        android:id="@+id/progressCircle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-
-    <LinearLayout
-        android:id="@+id/footer"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_weight="3"
-        android:paddingBottom="20dp"
-        >
+        android:layout_weight="3">
 
         <ImageButton
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:src="@drawable/ic_baseline_calendar_month_24"
+            android:src="@drawable/onpage_calendar"
             android:background="@null"
             android:layout_weight="1"
             android:id="@+id/calendar"
@@ -70,7 +49,7 @@
         <ImageButton
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:src="@drawable/onpage_menu_book"
+            android:src="@drawable/ic_baseline_menu_book_24"
             android:background="@null"
             android:layout_weight="1"
             android:id="@+id/entryOverview"
@@ -94,4 +73,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
