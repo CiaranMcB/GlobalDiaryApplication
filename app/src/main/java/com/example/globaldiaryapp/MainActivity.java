@@ -34,22 +34,22 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-public class MainActivity extends AppCompatActivity {
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
+public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     Button button;
-    //TextView textView;
+    TextView textView;
     FirebaseUser user;
-
-
     private static final int PICK_IMAGE_REQUEST = 1;
 
     String moodCheck;
 
     private Button mButtonChooseImage;
     private Button mButtonUpload;
-    // private TextView mTextViewShowUploads;
+    private TextView mTextViewShowUploads;
     private EditText mEditTextFileName;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         mButtonChooseImage = findViewById(R.id.btn_chooseImage);
         mButtonUpload = findViewById(R.id.btn_upload);
-        // mTextViewShowUploads = findViewById(R.id.textviewShowUploads); NOT NEEDED
+        mTextViewShowUploads = findViewById(R.id.textviewShowUploads);
         mEditTextFileName = findViewById(R.id.editText);
         mImageView = findViewById(R.id.imageView);
         mProgressBar = findViewById(R.id.progressBar);
@@ -110,9 +110,8 @@ public class MainActivity extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(getApplicationContext(), Settings.class);
-                //startActivity(intent);
-                Toast.makeText(MainActivity.this, "Clicked settings", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -133,23 +132,19 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     uploadFile();
                 }
-                uploadFile();
-
             }
         });
 
-        /**
+
         mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openImagesActivity();
             }
         });
-        **/
 
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logout);
-        //textView = findViewById(R.id.user_details);
+        textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
 
         if (user == null){
@@ -158,19 +153,9 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         else{
-            //textView.setText(user.getEmail());
+            textView.setText(user.getEmail());
         }
 
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplication(), Login.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
     }
 
@@ -232,9 +217,28 @@ public class MainActivity extends AppCompatActivity {
 
     private void uploadFile() {
         if (mImageUri != null) {
-            // We want the images to have a unique reference
-            // so we use the system time in
-            // milliseconds as it will always be unique
+
+            // Get the current date
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String date = dateFormat.format(calendar.getTime());
+
+// Save the data in Firebase with the current date as the key
+            String uploadId = mDatabaseRef.push().getKey();
+            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                    mImageUri.toString(),
+                    moodCheck,
+                    date,
+                    "");
+            mDatabaseRef.child(uploadId).setValue(upload);
+
+// Pass the data to the CalendarView activity
+            Intent intent = new Intent(MainActivity.this, CalendarView.class);
+            intent.putExtra("date", date);
+            startActivity(intent);
+
+
+            // Create a reference to "uploads" directory and filename
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
 
@@ -242,34 +246,34 @@ public class MainActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //Delays the progress bar from going to 0 to show the
-                            //User that the upload has reached 100%
+                            // Handler to wait for some time before displaying the toast message
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     mProgressBar.setProgress(0);
+                                    Toast.makeText(MainActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
                                 }
                             }, 500);
 
-                            Toast.makeText(MainActivity.this, "Upload Successful", Toast.LENGTH_LONG).show();
+                            // Get the download URL and upload the entry to the database
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    // Create an Upload object with the file name, URL and mood
+                                    Upload upload = new Upload(
+                                            mEditTextFileName.getText().toString().trim(),
+                                            uri.toString(),
+                                            user.getUid(),
+                                            moodCheck,
+                                            date
+                                    );
 
-//                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-//                                    taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-//
-//                            String uploadId = mDatabaseRef.push().getKey();
-//                            mDatabaseRef.child(uploadId).setValue(upload);
-
-                            Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                            while (!urlTask.isSuccessful());
-                            Uri downloadUrl = urlTask.getResult();
-
-                            //Log.d(TAG, "onSuccess: firebase download url: " + downloadUrl.toString()); //use if testing...don't need this line.
-                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),downloadUrl.toString(), user.getUid());
-
-                            String uploadId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadId).setValue(upload);
-
+                                    // Add the upload object to the database
+                                    String uploadId = mDatabaseRef.push().getKey();
+                                    mDatabaseRef.child(uploadId).setValue(upload);
+                                }
+                            });
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -280,18 +284,13 @@ public class MainActivity extends AppCompatActivity {
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-
-                            //A variable that gets transferred bytes in relation to total bytes
-                            double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                             mProgressBar.setProgress((int) progress);
                         }
                     });
-
-        }
-        else{
-            Toast.makeText(this, "No File Selected", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -15,6 +15,13 @@
         android:theme="@style/Theme.AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".editEntry"
             android:exported="false">
             <meta-data
@@ -52,32 +59,34 @@
         <activity
             android:name=".Register"
             android:exported="false">
+
             <!-- android:theme="@style/Theme.GlobalDiaryApp"> -->
-        <meta-data
-            android:name="android.app.lib_name"
-            android:value="" />
-    </activity>
-    <activity
-        android:name=".Login"
-        android:exported="true">
-        <!-- android:theme="@style/Theme.AppTheme"> -->
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Login"
+            android:exported="true">
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            <!-- android:theme="@style/Theme.AppTheme"> -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <meta-data
-            android:name="android.app.lib_name"
-            android:value="" />
-    </activity>
-    <activity
-        android:name=".MainActivity"
-        android:exported="true">
-        <meta-data
-            android:name="android.app.lib_name"
-            android:value="" />
-    </activity>
-</application>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+    </application>
 
 </manifest>

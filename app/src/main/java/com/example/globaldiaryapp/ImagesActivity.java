@@ -98,9 +98,8 @@ public class ImagesActivity extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(getApplicationContext(), Settings.class);
-                //startActivity(intent);
-                Toast.makeText(ImagesActivity.this, "Clicked settings", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
             }
         });
 

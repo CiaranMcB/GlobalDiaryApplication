@@ -38,7 +38,7 @@ public class Register extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
@@ -71,48 +71,51 @@ public class Register extends AppCompatActivity {
         buttonReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                String email, password, password2;
-                email = String.valueOf(editTextEmail.getText());
-                password = String.valueOf(editTextPassword.getText());
-                password2 = String.valueOf(editTextPassword2.getText());
+                String email = editTextEmail.getText().toString().trim();
+                String password = editTextPassword.getText().toString().trim();
+                String password2 = editTextPassword2.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Register.this, "Enter email", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
-                if (TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     Toast.makeText(Register.this, "Enter password", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
-                if (TextUtils.isEmpty(password2)){
+                if (TextUtils.isEmpty(password2)) {
                     Toast.makeText(Register.this, "Confirm Password", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
+                if (!password.equals(password2)) {
+                    Toast.makeText(Register.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                progressBar.setVisibility(View.VISIBLE);
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (password.equals(password2)) {
-
-                                    progressBar.setVisibility(View.GONE);
-                                    Toast.makeText(Register.this, "Account Created.",
-                                            Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
                                 } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(Register.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Register.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
-
-
                         });
-
-
             }
         });
     }
-    private void setDateText(){
+
+    private void setDateText() {
         Calendar cal = Calendar.getInstance();
         String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(cal.getTime());
         String day = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(cal.getTime()) + " - " + date;
