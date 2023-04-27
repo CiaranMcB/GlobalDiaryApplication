@@ -54,7 +54,8 @@ public class ImagesActivity extends AppCompatActivity {
 
         mUploads = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance(). getReference("uploads");
+
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
