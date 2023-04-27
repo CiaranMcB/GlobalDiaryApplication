@@ -37,6 +37,12 @@
         android:textStyle="normal"
         />
 
+    <TextView
+        android:id="@+id/dataView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp" />
+
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
