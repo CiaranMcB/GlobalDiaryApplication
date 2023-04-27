@@ -10,17 +10,18 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="horizontal"
-        android:layout_weight="6"
+        android:orientation="vertical"
+        android:layout_weight="3"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="20dp">
 
         <TextView
+            android:id="@+id/header"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:text="How was your day?"
-            android:textColor="#674fa4"
+            android:textColor="@color/brown_main"
             android:gravity="center"
             android:textSize="32sp"
             android:textStyle="bold"
@@ -28,17 +29,31 @@
             />
 
     </LinearLayout>
-    <LinearLayout
+    <TextView
+        android:id="@+id/splitter"
+        android:layout_below="@id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="........................................................."
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
         android:padding="20dp"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_chooseImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/choose_file" />
-    
+        android:orientation="vertical">
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
@@ -46,13 +61,7 @@
             android:layout_marginStart="15dp"
             android:layout_toEndOf="@+id/btn_chooseImage"
             android:hint="@string/diary_entry" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="4"
-        android:padding="20dp"
-        android:orientation="vertical">
+
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
@@ -71,6 +80,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginBottom="125dp" />
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -115,43 +125,43 @@
         </RadioGroup>
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginRight="20dp">
-            <TextView
-                android:id="@+id/user_details"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/logout"
-                android:layout_alignParentBottom="true"
-                android:textAlignment="center"
-                android:text="Hello World!" />
-        </LinearLayout>
 
         <Button
-            android:id="@+id/btn_upload"
+            android:id="@+id/btn_chooseImage"
+            style="@style/ButtonBorderedNoPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:text="@string/upload" />
+            android:text="Add Image" />
 
+        <Button
+            android:id="@+id/btn_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ButtonBorderedNoPadding"
+            android:layout_marginLeft="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:text="Save" />
+
+        <!-- NOT NEEDED DUE TO THE NAVIGATION
         <TextView
             android:id="@+id/textviewShowUploads"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/brown_main"
+            android:textStyle="bold"
             android:layout_alignBaseline="@+id/btn_upload"
             android:layout_marginStart="25dp"
             android:layout_toEndOf="@+id/btn_upload"
@@ -159,12 +169,54 @@
             android:layout_gravity="center"
             android:text="@string/show_entries"
             android:textSize="15sp" />
+         -->
+        <Button
+            android:id="@+id/logout"
+            style="@style/ButtonBorderedNoPadding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:text="@string/logout" />
+
     </LinearLayout>
+    </LinearLayout>
+
+    <!-- MOVE THIS TO SETTINGS
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="20dp">
+        <TextView
+            android:id="@+id/user_details"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/logout"
+            android:layout_alignParentBottom="true"
+            android:textAlignment="center"
+            android:text="Hello World!" />
+
+    </LinearLayout>
+    -->
+
+
+    <TextView
+        android:id="@+id/splitterBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="........................................................."
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        />
+
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="horizontal"
-        android:layout_weight="6">
+        android:layout_weight="3">
 
         <ImageButton
             android:layout_width="fill_parent"

@@ -34,6 +34,9 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
@@ -214,6 +217,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void uploadFile() {
         if (mImageUri != null) {
+
+            // Get the current date
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String date = dateFormat.format(calendar.getTime());
+
+// Save the data in Firebase with the current date as the key
+            String uploadId = mDatabaseRef.push().getKey();
+            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                    mImageUri.toString(),
+                    moodCheck,
+                    date,
+                    "");
+            mDatabaseRef.child(uploadId).setValue(upload);
+
+// Pass the data to the CalendarView activity
+            Intent intent = new Intent(MainActivity.this, CalendarView.class);
+            intent.putExtra("date", date);
+            startActivity(intent);
+
+
             // Create a reference to "uploads" directory and filename
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
@@ -237,8 +261,13 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     // Create an Upload object with the file name, URL and mood
-                                    Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                                            uri.toString(), user.getUid(), moodCheck);
+                                    Upload upload = new Upload(
+                                            mEditTextFileName.getText().toString().trim(),
+                                            uri.toString(),
+                                            user.getUid(),
+                                            moodCheck,
+                                            date
+                                    );
 
                                     // Add the upload object to the database
                                     String uploadId = mDatabaseRef.push().getKey();
