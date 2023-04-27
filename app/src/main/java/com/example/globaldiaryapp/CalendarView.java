@@ -35,6 +35,7 @@ public class CalendarView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_view);
 
+
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");;
 
         calendarView = findViewById(R.id.calendarView);
@@ -80,6 +81,7 @@ public class CalendarView extends AppCompatActivity {
                 mDatabaseRef.orderByChild("date").equalTo(formattedDate).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                         if(dataSnapshot.getChildrenCount()==0){
                             Toast.makeText(getApplicationContext(),"No entries for this date",Toast.LENGTH_SHORT).show();
                         } else {

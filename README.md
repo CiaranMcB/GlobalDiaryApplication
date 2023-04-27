@@ -1,8 +1,8 @@
 # GlobalDiaryApplication
 
 Description - A Diary Application to allow user to enter Diary entries along with images to express how they are feeling at a particular moment. 
-The objective of this application is to create a seemless transition between what we know as a traditional Diary and an up to date application.
-We want the application to be user friendly to ensure the user is comfotable with creating diary entries. We also want to make the application
+The objective of this application is to create a seamless transition between what we know as a traditional Diary and an up to date application.
+We want the application to be user friendly to ensure the user is comfortable with creating diary entries. We also want to make the application
 customizable to allow the user to create their own spin on what they want their diary application to look like.
 
 User Manual/Steps
