@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.text.BreakIterator;
@@ -22,13 +23,13 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> implements View.OnClickListener {
 
     private Context mContext;
-    private List<Upload> mUploads;
+    private List<DataSnapshot> mSnapshots;
     FirebaseAuth auth;
     FirebaseUser user;
 
-    public ImageAdapter(Context context, List<Upload> uploads){
+    public ImageAdapter(Context context, List<DataSnapshot> snapshots){
         mContext = context;
-        mUploads = uploads;
+        mSnapshots = snapshots;
     }
 
 
@@ -45,7 +46,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
-        Upload uploadCurrent = mUploads.get(position);
+        DataSnapshot snapshot = mSnapshots.get(position);
+        Upload uploadCurrent = snapshot.getValue(Upload.class);
         System.out.println("User UploadCurrent " + uploadCurrent.getUserID());
         System.out.println("User Current " + user.getUid());
         if(uploadCurrent.getUserID() != null && uploadCurrent.getUserID().equals(user.getUid()))
@@ -67,17 +69,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
     @Override
     public int getItemCount() {
-        return mUploads.size();
+        return mSnapshots.size();
     }
 
     @Override
     public void onClick(View v) {
         int position = (int) v.getTag();
-        Upload upload = mUploads.get(position);
+        DataSnapshot snapshot = mSnapshots.get(position);
+        Upload upload = snapshot.getValue(Upload.class);
 
         Intent intent = new Intent(mContext, editEntry.class);
         intent.putExtra("name", upload.getName());
         intent.putExtra("imageUrl", upload.getImageUrl());
+        intent.putExtra("key", snapshot.getKey());
         mContext.startActivity(intent);
     }
 
