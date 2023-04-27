@@ -129,10 +129,9 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     uploadFile();
                 }
-                uploadFile();
-
             }
         });
+
 
         mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
             @Override
