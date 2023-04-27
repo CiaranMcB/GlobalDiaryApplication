@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
         mButtonChooseImage = findViewById(R.id.btn_chooseImage);
         mButtonUpload = findViewById(R.id.btn_upload);
-        mTextViewShowUploads = findViewById(R.id.textviewShowUploads);
         mEditTextFileName = findViewById(R.id.editText);
         mImageView = findViewById(R.id.imageView);
         mProgressBar = findViewById(R.id.progressBar);
@@ -144,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         auth = FirebaseAuth.getInstance();
-        textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
 
         if (user == null){

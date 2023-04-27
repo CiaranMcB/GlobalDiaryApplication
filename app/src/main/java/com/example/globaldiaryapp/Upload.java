@@ -5,12 +5,13 @@ public class Upload {
     private String mImageUrl;
     private String mUserID;
     private String mMood;
+    private String mDate;
 
     public Upload() {
         //constructor needed
     }
 
-    public Upload(String name, String imageUrl, String userID, String mood){
+    public Upload(String name, String imageUrl, String userID, String mood, String date){
         if (name.trim().equals("")){
             name = "No Name";
         }
@@ -19,8 +20,8 @@ public class Upload {
         mImageUrl = imageUrl;
         mUserID = userID;
         mMood = mood;
+        mDate = date;
     }
-
 
     public String getName() {
         return mName;
@@ -52,5 +53,13 @@ public class Upload {
 
     public void setMood(String mood) {
         mMood = mood;
+    }
+
+    public String getDate() {
+        return mDate;
+    }
+
+    public void setDate(String date) {
+        mDate = date;
     }
 }
