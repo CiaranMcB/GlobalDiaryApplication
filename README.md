@@ -13,7 +13,7 @@
 - Register allows the user to set up a profile for creating unique diary entries that are personal to them. 
 - The registration page requires the user to to sign up using their email address, choose a password for the account, and verify the password to ensure they are aware of their password.
 
-![image](https://user-images.githubusercontent.com/98556622/234918755-ddcb8173-89fb-445b-8be3-b34c5cbdc08f.png)
+<img src="https://user-images.githubusercontent.com/98556622/234918755-ddcb8173-89fb-445b-8be3-b34c5cbdc08f.png" width="200" />
 
 
 - Login allows the user to sign in with an account that has already been registered and is recognized inside the database.
