@@ -39,7 +39,7 @@ public class editEntry extends AppCompatActivity {
         Intent intent = getIntent();
         mImageUrl = intent.getStringExtra("imageUrl");
         mName = intent.getStringExtra("name");
-        mKey = intent.getStringExtra("key");
+        mKey = intent.getStringExtra("userId");
 
         mTextViewName.setText(mName);
         Picasso.with(this)
@@ -57,7 +57,7 @@ public class editEntry extends AppCompatActivity {
     }
 
     private void deleteItem() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("uploads").child(mKey);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("uploads");
         ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
