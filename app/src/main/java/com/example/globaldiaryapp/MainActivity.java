@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton calendar;
     ImageButton entryOverview;
     ImageButton settings;
+    Button audio;
 
 
     @Override
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         calendar = findViewById(R.id.calendar);
         entryOverview = findViewById(R.id.entryOverview);
         settings = findViewById(R.id.settings);
+        audio = findViewById(R.id.btn_chooseAudio);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
@@ -114,6 +116,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        audio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AudioActivity.class);
                 startActivity(intent);
             }
         });
