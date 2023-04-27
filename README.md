@@ -21,7 +21,8 @@
 - When the user logins to the app, they are presented with the entry overview, which will show all previous entries the user has made. 
 - The UI design also allows the user to select which section they would like to enter next; these sections include settings, calendar, and create entry. We recommend  the user begins with the create entry section.
 
-# INSERT IMAGE OF ENTRIES
+![image](https://user-images.githubusercontent.com/98556622/234918213-fcf9ca42-7032-46b7-a6ac-e66c6c7f1f7e.png)
+
 
 3. CREATE ENTRY
 - This page allows the user to upload their diary entries. The user is given a selection of options on this page, which include the following: enter text, add an image,Add mood and audio. Enter text allows the user to enter some text to describe their daily experiences. 
