@@ -5,17 +5,21 @@
 -  We want the application to be user-friendly to ensure the user is comfortable creating diary entries. We also want to make the application
 - customizable to allow the user to put their own spin on what they want their diary application to look like.
 
+***Important to note that users must be connected the firebase to ensure they can retrieve and upload to the firebase***
+
 # User Manual/Steps
 
 1. Login/Register
 - Register allows the user to set up a profile for creating unique diary entries that are personal to them. 
 - The registration page requires the user to to sign up using their email address, choose a password for the account, and verify the password to ensure they are aware of their password.
 
-# INSERT IMAGE OF REGISTER
+![image](https://user-images.githubusercontent.com/98556622/234918755-ddcb8173-89fb-445b-8be3-b34c5cbdc08f.png)
+
 
 - Login allows the user to sign in with an account that has already been registered and is recognized inside the database.
 
-# INSERT IMAGE OF LOGIN
+![image](https://user-images.githubusercontent.com/98556622/234918686-883c0227-5bbe-4e88-aa82-31950edda0be.png)
+
 
 2. ENTRIES
 - When the user logins to the app, they are presented with the entry overview, which will show all previous entries the user has made. 
@@ -30,14 +34,15 @@
 - Finally, to add audio functionality, we were, unfortunately, unable to fully add this functionality within the given time frame.
 - That being said, this part was for the days when the user doesn't feel like writing in the entries and would like to simply express their daily experiences in words.
 
-# INSERT IMAGE OF CREATE ENTRY PAGE
+![image](https://user-images.githubusercontent.com/98556622/234918455-3e38403b-1ac1-408d-888d-f2f4b92ee678.png)
 
 4. CALENDAR
 - Unfortunately, we didn't have time to implement the functionality on this page either, but this page was intended as a way for users to search diary entries based on the date they were uploaded
 
-# INSERT IMAGE OF THE CALENDAR
+![image](https://user-images.githubusercontent.com/98556622/234918605-3049cc0e-9c28-42cb-90be-c0e012ae43e1.png)
+
 
 5. SETTINGS
 - This section allows the user to log out and allows the user to access the user manual from inside the application.
 
-# INSERT IMAGE OF SETTINGS
+![image](https://user-images.githubusercontent.com/98556622/234918520-61385de4-e2cf-4d33-9513-96829fc19110.png)
