@@ -48,7 +48,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         Upload uploadCurrent = mUploads.get(position);
         System.out.println("User UploadCurrent " + uploadCurrent.getUserID());
         System.out.println("User Current " + user.getUid());
-        if(uploadCurrent.getUserID().equals(user.getUid()))
+        if(uploadCurrent.getUserID() != null && uploadCurrent.getUserID().equals(user.getUid()))
         {
             holder.textViewName.setText(uploadCurrent.getName());
             holder.textViewMood.setText("Mood: " + uploadCurrent.getMood()); // Set the mood value
@@ -64,9 +64,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         holder.itemView.setTag(position);
 
     }
-
-
-
     @Override
     public int getItemCount() {
         return mUploads.size();

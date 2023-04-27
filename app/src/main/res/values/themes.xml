@@ -28,9 +28,16 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
-    <style name="Theme.AppTheme.Dark" parent="Theme.AppTheme">
+
+    <style name="Theme.AppTheme.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/brown_light</item>
+        <item name="colorPrimaryVariant">@color/brown_main</item>
+        <item name="colorOnPrimary">@color/white</item>
 
         <item name="android:colorBackground">@color/black</item>
+        <item name="android:fontFamily">@font/robotoregular</item>
+        <item name="fontFamily">@font/robotoregular</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
     <style name="ButtonBordered">

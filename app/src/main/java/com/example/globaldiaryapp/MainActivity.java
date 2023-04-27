@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textDate;
     FirebaseUser user;
+    FirebaseAuth auth;
     private static final int PICK_IMAGE_REQUEST = 1;
 
     String moodCheck;
@@ -85,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         textDate = findViewById(R.id.date);
         setDateText();
@@ -200,21 +203,6 @@ public class MainActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String date = dateFormat.format(calendar.getTime());
-
-// Save the data in Firebase with the current date as the key
-            String uploadId = mDatabaseRef.push().getKey();
-            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                    mImageUri.toString(),
-                    moodCheck,
-                    date,
-                    "");
-            mDatabaseRef.child(uploadId).setValue(upload);
-
-// Pass the data to the CalendarView activity
-            Intent intent = new Intent(MainActivity.this, CalendarView.class);
-            intent.putExtra("date", date);
-            startActivity(intent);
-
 
             // Create a reference to "uploads" directory and filename
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
