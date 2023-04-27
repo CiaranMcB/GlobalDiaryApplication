@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import java.text.BreakIterator;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> implements View.OnClickListener {
@@ -50,6 +51,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         if(uploadCurrent.getUserID().equals(user.getUid()))
         {
             holder.textViewName.setText(uploadCurrent.getName());
+            holder.textViewMood.setText("Mood: " + uploadCurrent.getMood()); // Set the mood value
             Picasso.with(mContext)
                     .load(uploadCurrent.getImageUrl())
                     .fit()
@@ -62,6 +64,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         holder.itemView.setTag(position);
 
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -82,12 +86,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName;
         public ImageView imageView;
+        public TextView textViewMood;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewName = itemView.findViewById(R.id.textViewName);
+            textViewMood = itemView.findViewById(R.id.textViewMood);
             imageView = itemView.findViewById(R.id.imageViewUpload);
+
         }
     }
 }

@@ -107,9 +107,8 @@ public class MainActivity extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(getApplicationContext(), Settings.class);
-                //startActivity(intent);
-                Toast.makeText(MainActivity.this, "Clicked settings", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -130,10 +129,9 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     uploadFile();
                 }
-                uploadFile();
-
             }
         });
+
 
         mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logout);
         textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
 
@@ -156,15 +153,7 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(user.getEmail());
         }
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplication(), Login.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+
     }
 
     public void onRadioButtonClicked(View view) {
@@ -225,9 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void uploadFile() {
         if (mImageUri != null) {
-            // We want the images to have a unique reference
-            // so we use the system time in
-            // milliseconds as it will always be unique
+            // Create a reference to "uploads" directory and filename
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
 
@@ -235,34 +222,29 @@ public class MainActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //Delays the progress bar from going to 0 to show the
-                            //User that the upload has reached 100%
+                            // Handler to wait for some time before displaying the toast message
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     mProgressBar.setProgress(0);
+                                    Toast.makeText(MainActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
                                 }
                             }, 500);
 
-                            Toast.makeText(MainActivity.this, "Upload Successful", Toast.LENGTH_LONG).show();
+                            // Get the download URL and upload the entry to the database
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    // Create an Upload object with the file name, URL and mood
+                                    Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                                            uri.toString(), user.getUid(), moodCheck);
 
-//                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-//                                    taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-//
-//                            String uploadId = mDatabaseRef.push().getKey();
-//                            mDatabaseRef.child(uploadId).setValue(upload);
-
-                            Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                            while (!urlTask.isSuccessful());
-                            Uri downloadUrl = urlTask.getResult();
-
-                            //Log.d(TAG, "onSuccess: firebase download url: " + downloadUrl.toString()); //use if testing...don't need this line.
-                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),downloadUrl.toString(), user.getUid());
-
-                            String uploadId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadId).setValue(upload);
-
+                                    // Add the upload object to the database
+                                    String uploadId = mDatabaseRef.push().getKey();
+                                    mDatabaseRef.child(uploadId).setValue(upload);
+                                }
+                            });
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -273,18 +255,13 @@ public class MainActivity extends AppCompatActivity {
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-
-                            //A variable that gets transferred bytes in relation to total bytes
-                            double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                             mProgressBar.setProgress((int) progress);
                         }
                     });
-
-        }
-        else{
-            Toast.makeText(this, "No File Selected", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
 
