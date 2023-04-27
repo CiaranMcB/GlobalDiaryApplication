@@ -36,20 +36,19 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
-    Button button;
-    TextView textView;
+    TextView textDate;
     FirebaseUser user;
+    FirebaseAuth auth;
     private static final int PICK_IMAGE_REQUEST = 1;
 
     String moodCheck;
 
     private Button mButtonChooseImage;
     private Button mButtonUpload;
-    private TextView mTextViewShowUploads;
     private EditText mEditTextFileName;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
@@ -87,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        textDate = findViewById(R.id.date);
+        setDateText();
 
         // Event handlers for buttons
         calendar.setOnClickListener(new View.OnClickListener() {
@@ -133,27 +137,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImagesActivity();
-            }
-        });
-
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-
-        if (user == null){
-            Intent intent = new Intent(getApplication(), Login.class);
-            startActivity(intent);
-            finish();
-        }
-        else{
-            textView.setText(user.getEmail());
-        }
-
 
     }
 
@@ -221,21 +204,6 @@ public class MainActivity extends AppCompatActivity {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String date = dateFormat.format(calendar.getTime());
 
-// Save the data in Firebase with the current date as the key
-            String uploadId = mDatabaseRef.push().getKey();
-            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                    mImageUri.toString(),
-                    moodCheck,
-                    date,
-                    "");
-            mDatabaseRef.child(uploadId).setValue(upload);
-
-// Pass the data to the CalendarView activity
-            Intent intent = new Intent(MainActivity.this, CalendarView.class);
-            intent.putExtra("date", date);
-            startActivity(intent);
-
-
             // Create a reference to "uploads" directory and filename
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
@@ -291,9 +259,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private void openImagesActivity(){
-        Intent intent = new Intent(this, ImagesActivity.class);
-        startActivity(intent);
+    private void setDateText(){
+        Calendar cal = Calendar.getInstance();
+        String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(cal.getTime());
+        String day = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(cal.getTime()) + " - " + date;
+        textDate.setText(day);
     }
+
 }
