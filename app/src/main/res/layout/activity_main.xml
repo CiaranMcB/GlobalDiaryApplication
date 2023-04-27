@@ -30,16 +30,11 @@
 
     </LinearLayout>
     <TextView
-        android:id="@+id/splitter"
-        android:layout_below="@id/header"
+        android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="........................................................."
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="normal"
-        />
-
+        android:gravity="center"
+        android:text="Tuesday - 28.02.2023" />
 
 
     <LinearLayout
@@ -54,6 +49,7 @@
         android:layout_weight="4"
         android:padding="20dp"
         android:orientation="vertical">
+
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
@@ -129,6 +125,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:orientation="horizontal">
@@ -138,15 +135,27 @@
             style="@style/ButtonBorderedNoPadding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:text="Add Image" />
+            android:text="Image" />
+
+        <Button
+            android:id="@+id/btn_chooseAudio"
+            style="@style/ButtonBorderedNoPadding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:text="Audio" />
 
         <Button
             android:id="@+id/btn_upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             style="@style/ButtonBorderedNoPadding"
             android:layout_marginLeft="5dp"
             android:layout_alignParentBottom="true"
@@ -154,51 +163,11 @@
             android:layout_gravity="center"
             android:text="Save" />
 
-        <!-- NOT NEEDED DUE TO THE NAVIGATION
-        <TextView
-            android:id="@+id/textviewShowUploads"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/brown_main"
-            android:textStyle="bold"
-            android:layout_alignBaseline="@+id/btn_upload"
-            android:layout_marginStart="25dp"
-            android:layout_toEndOf="@+id/btn_upload"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:text="@string/show_entries"
-            android:textSize="15sp" />
-         -->
-        <Button
-            android:id="@+id/logout"
-            style="@style/ButtonBorderedNoPadding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="5dp"
-            android:text="@string/logout" />
+
+
 
     </LinearLayout>
     </LinearLayout>
-
-    <!-- MOVE THIS TO SETTINGS
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginRight="20dp">
-        <TextView
-            android:id="@+id/user_details"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/logout"
-            android:layout_alignParentBottom="true"
-            android:textAlignment="center"
-            android:text="Hello World!" />
-
-    </LinearLayout>
-    -->
 
 
     <TextView

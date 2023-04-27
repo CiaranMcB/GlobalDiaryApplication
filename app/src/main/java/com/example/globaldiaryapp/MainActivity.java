@@ -36,12 +36,11 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
-    Button button;
-    TextView textView;
+    TextView textDate;
     FirebaseUser user;
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mButtonChooseImage;
     private Button mButtonUpload;
-    private TextView mTextViewShowUploads;
     private EditText mEditTextFileName;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
@@ -87,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+
+        textDate = findViewById(R.id.date);
+        setDateText();
 
         // Event handlers for buttons
         calendar.setOnClickListener(new View.OnClickListener() {
@@ -133,27 +134,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImagesActivity();
-            }
-        });
-
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
-
-        if (user == null){
-            Intent intent = new Intent(getApplication(), Login.class);
-            startActivity(intent);
-            finish();
-        }
-        else{
-            textView.setText(user.getEmail());
-        }
-
 
     }
 
@@ -291,9 +271,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private void openImagesActivity(){
-        Intent intent = new Intent(this, ImagesActivity.class);
-        startActivity(intent);
+    private void setDateText(){
+        Calendar cal = Calendar.getInstance();
+        String date = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(cal.getTime());
+        String day = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(cal.getTime()) + " - " + date;
+        textDate.setText(day);
     }
+
 }

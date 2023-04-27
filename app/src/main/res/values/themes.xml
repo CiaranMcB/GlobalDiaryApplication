@@ -20,6 +20,7 @@
         <item name="colorPrimary">@color/brown_main</item>
         <item name="colorPrimaryVariant">@color/brown_light</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brown_light</item>
 
         <item name="android:colorBackground">@color/white</item>
         <item name="android:fontFamily">@font/robotoregular</item>

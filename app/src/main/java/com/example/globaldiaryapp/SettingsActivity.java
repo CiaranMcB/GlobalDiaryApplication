@@ -9,13 +9,19 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import android.widget.TextView;
 
 public class SettingsActivity extends AppCompatActivity {
 
     ImageButton calendar;
     ImageButton entryOverview;
+    ImageButton writeEntry;
     ImageButton settings;
     Button button;
+    FirebaseAuth auth;
+    TextView textView;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +31,20 @@ public class SettingsActivity extends AppCompatActivity {
         calendar = findViewById(R.id.calendar);
         entryOverview = findViewById(R.id.entryOverview);
         settings = findViewById(R.id.settings);
+        writeEntry = findViewById(R.id.writeEntry);
         button = findViewById(R.id.logout);
+
+        auth = FirebaseAuth.getInstance();
+        textView = findViewById(R.id.user_details);
+        user = auth.getCurrentUser();
+        if (user == null){
+            Intent intent = new Intent(getApplication(), Login.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            textView.setText(user.getEmail());
+        }
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,16 +72,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-
-        settings.setOnClickListener(new View.OnClickListener() {
+        writeEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
-
-
 
     }
 
