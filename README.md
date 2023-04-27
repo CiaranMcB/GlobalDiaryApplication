@@ -2,8 +2,7 @@
 
 - Description: A diary application that allows users to enter diary entries along with images to express how they are feeling at a particular moment.
 - The objective of this application is to create a seamless transition between what we know as a traditional diary and an up-to-date application.
--  We want the application to be user-friendly to ensure the user is comfortable creating diary entries. We also want to make the application
-- customizable to allow the user to put their own spin on what they want their diary application to look like.
+-  We want the application to be user-friendly to ensure the user is comfortable creating diary entries. 
 
 ***Important to note that users must be connected the firebase to ensure they can retrieve and upload to the firebase***
 
@@ -12,6 +11,8 @@
 1. Login/Register
 - Register allows the user to set up a profile for creating unique diary entries that are personal to them. 
 - The registration page requires the user to to sign up using their email address, choose a password for the account, and verify the password to ensure they are aware of their password.
+-Register requires a password with minimum length of 6 characters.
+-User needs all fields inputed both on the register and login page if they don't have any input the user will not be able to continue.
 
 <img src="https://user-images.githubusercontent.com/98556622/234918755-ddcb8173-89fb-445b-8be3-b34c5cbdc08f.png" width="200" />
 
@@ -24,6 +25,8 @@
 2. ENTRIES
 - When the user logins to the app, they are presented with the entry overview, which will show all previous entries the user has made. 
 - The UI design also allows the user to select which section they would like to enter next; these sections include settings, calendar, and create entry. We recommend  the user begins with the create entry section.
+-This page allows users to scroll through their most recent entries. These entries are then clickable and is able to be seen in full to the user. 
+-The user is provided an option to delete an entry when they click into the entry.
 
 <img src="https://user-images.githubusercontent.com/98556622/234918213-fcf9ca42-7032-46b7-a6ac-e66c6c7f1f7e.png" width="200" />
 
@@ -37,7 +40,9 @@
 <img src="https://user-images.githubusercontent.com/98556622/234918455-3e38403b-1ac1-408d-888d-f2f4b92ee678.png" width="200" />
 
 4. CALENDAR
-- Unfortunately, we didn't have time to implement the functionality on this page either, but this page was intended as a way for users to search diary entries based on the date they were uploaded
+- Unfortunately, we didn't have time to implement the functionality on this page either, but this page was intended as a way for users to search diary entries based on the date they were uploaded.
+-This page allows the user to be able to click on a date on the calendar to see if there was any entry written.
+-If there is an entry the user would be shown the fully entry and has the ability to delete it.
 
 <img src="https://user-images.githubusercontent.com/98556622/234918605-3049cc0e-9c28-42cb-90be-c0e012ae43e1.png" width="200" />
 
