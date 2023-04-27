@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,6 +31,8 @@ public class CalendarView extends AppCompatActivity {
     ImageButton entryOverview;
     ImageButton settings;
     DatabaseReference mDatabaseRef;
+    FirebaseAuth auth;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,9 @@ public class CalendarView extends AppCompatActivity {
         entryOverview = findViewById(R.id.entryOverview);
         writeEntry = findViewById(R.id.writeEntry);
         settings = findViewById(R.id.settings);
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
         writeEntry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,22 +85,24 @@ public class CalendarView extends AppCompatActivity {
                 curDate = String.valueOf(dayOfMonth);
                 if(dayOfMonth<10) { curDate = "0" + curDate; }
                 formattedDate = String.format("%s-%s-%s", Year, Month, curDate);
-                mDatabaseRef.orderByChild("date").equalTo(formattedDate).addValueEventListener(new ValueEventListener() {
+                mDatabaseRef.orderByChild("date").equalTo(formattedDate).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        if(dataSnapshot.getChildrenCount()==0){
-                            Toast.makeText(getApplicationContext(),"No entries for this date",Toast.LENGTH_SHORT).show();
-                        } else {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                Upload upload = snapshot.getValue(Upload.class);
-
+                        boolean found = false;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Upload upload = snapshot.getValue(Upload.class);
+                            if(upload.getUserID().equals(user.getUid())) {
                                 Intent intent = new Intent(getApplicationContext(), editEntry.class);
                                 intent.putExtra("name", upload.getName());
                                 intent.putExtra("imageUrl", upload.getImageUrl());
+                                intent.putExtra("key", snapshot.getKey());
                                 startActivity(intent);
+                                found = true;
                                 break;
                             }
+                        }
+                        if(!found){
+                            Toast.makeText(getApplicationContext(),"No entries for this date",Toast.LENGTH_SHORT).show();
                         }
                     }
 

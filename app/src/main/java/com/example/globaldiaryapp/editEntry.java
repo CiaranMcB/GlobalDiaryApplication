@@ -13,8 +13,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class editEntry extends AppCompatActivity {
@@ -39,7 +42,7 @@ public class editEntry extends AppCompatActivity {
         Intent intent = getIntent();
         mImageUrl = intent.getStringExtra("imageUrl");
         mName = intent.getStringExtra("name");
-        mKey = intent.getStringExtra("userId");
+        mKey = intent.getStringExtra("key");
 
         mTextViewName.setText(mName);
         Picasso.with(this)
@@ -57,16 +60,31 @@ public class editEntry extends AppCompatActivity {
     }
 
     private void deleteItem() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("uploads");
-        ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("uploads");
+        ref.orderByKey().equalTo(mKey).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(editEntry.this, "Item deleted successfully", Toast.LENGTH_SHORT).show();
-                    finish();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    Toast.makeText(getApplicationContext(), "Entry not found", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(editEntry.this, "Failed to delete item", Toast.LENGTH_SHORT).show();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        snapshot.getRef().removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(editEntry.this, "Entry deleted successfully", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(editEntry.this, "Failed to delete entry", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
                 }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }

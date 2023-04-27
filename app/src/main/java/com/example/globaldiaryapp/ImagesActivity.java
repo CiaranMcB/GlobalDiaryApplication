@@ -36,7 +36,7 @@ public class ImagesActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;
     private FirebaseUser user;
     private FirebaseAuth auth;
-    private List<Upload> mUploads;
+    private List<DataSnapshot> mSnapshots;
 
     ImageButton calendar;
     ImageButton writeEntry;
@@ -58,22 +58,21 @@ public class ImagesActivity extends AppCompatActivity {
 
         mProgressCircle = findViewById(R.id.progressCircle);
 
-        mUploads = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance(). getReference("uploads");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
         mDatabaseRef.orderByChild("userID").equalTo(user.getUid()).addValueEventListener(new ValueEventListener() {
-        //mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mSnapshots = new ArrayList<>();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()){
-                    Upload upload = postSnapshot.getValue(Upload.class);
-                    mUploads.add(0, upload);
+                    //Upload upload = postSnapshot.getValue(Upload.class);
+                    mSnapshots.add(0, postSnapshot);
                 }
 
-                mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);
+                mAdapter = new ImageAdapter(ImagesActivity.this, mSnapshots);
 
                 mRecyclerView.setAdapter(mAdapter);
 
