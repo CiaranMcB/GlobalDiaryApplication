@@ -33,7 +33,7 @@ public class CalendarView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_view);
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("diary");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("uploads");
 
         calendarView = findViewById(R.id.calendarView);
         dataView = findViewById(R.id.dataView);
@@ -51,10 +51,18 @@ public class CalendarView extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String data = "";
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String title = snapshot.child("title").getValue().toString();
-                            String content = snapshot.child("content").getValue().toString();
-                            data += "Title: " + title + "\nContent: " + content + "\n\n";
+                            //String title = snapshot.child("title").getValue().toString();
+                            //String content = snapshot.child("content").getValue().toString();
+                            //data += "Title: " + title + "\nContent: " + content + "\n\n";
+                            Upload upload = snapshot.getValue(Upload.class);
+
+                            Intent intent = new Intent(getApplicationContext(), editEntry.class);
+                            intent.putExtra("name", upload.getName());
+                            intent.putExtra("imageUrl", upload.getImageUrl());
+                            startActivity(intent);
+                            break;
                         }
+
                         if (data.equals("")) {
                             dataView.setText("No data available for selected date.");
                         } else {
