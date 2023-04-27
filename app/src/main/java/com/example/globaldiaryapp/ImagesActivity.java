@@ -12,13 +12,17 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import kotlin.collections.ArrayDeque;
@@ -30,6 +34,8 @@ public class ImagesActivity extends AppCompatActivity {
     private ProgressBar mProgressCircle;
 
     private DatabaseReference mDatabaseRef;
+    private FirebaseUser user;
+    private FirebaseAuth auth;
     private List<Upload> mUploads;
 
     ImageButton calendar;
@@ -55,14 +61,16 @@ public class ImagesActivity extends AppCompatActivity {
         mUploads = new ArrayList<>();
 
         mDatabaseRef = FirebaseDatabase.getInstance(). getReference("uploads");
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
-
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        mDatabaseRef.orderByChild("userID").equalTo(user.getUid()).addValueEventListener(new ValueEventListener() {
+        //mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()){
                     Upload upload = postSnapshot.getValue(Upload.class);
-                    mUploads.add(upload);
+                    mUploads.add(0, upload);
                 }
 
                 mAdapter = new ImageAdapter(ImagesActivity.this, mUploads);

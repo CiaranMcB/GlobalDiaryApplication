@@ -50,19 +50,20 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         System.out.println("User Current " + user.getUid());
         if(uploadCurrent.getUserID() != null && uploadCurrent.getUserID().equals(user.getUid()))
         {
+            holder.textViewDate.setText(uploadCurrent.getDate());
             holder.textViewName.setText(uploadCurrent.getName());
-            holder.textViewMood.setText("Mood: " + uploadCurrent.getMood()); // Set the mood value
+            if(uploadCurrent.getMood()==null){
+                holder.textViewMood.setText("");
+            } else { holder.textViewMood.setText(uploadCurrent.getMood()); }
             Picasso.with(mContext)
                     .load(uploadCurrent.getImageUrl())
                     .fit()
                     .centerCrop()
                     .into(holder.imageView);
-
         }
 
         holder.itemView.setOnClickListener(this);
         holder.itemView.setTag(position);
-
     }
     @Override
     public int getItemCount() {
@@ -82,16 +83,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName;
+        public TextView textViewDate;
         public ImageView imageView;
         public TextView textViewMood;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            textViewDate = itemView.findViewById(R.id.textViewDate);
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewMood = itemView.findViewById(R.id.textViewMood);
             imageView = itemView.findViewById(R.id.imageViewUpload);
-
         }
     }
 }
