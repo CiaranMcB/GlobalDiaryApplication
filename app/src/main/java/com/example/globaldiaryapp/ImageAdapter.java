@@ -51,7 +51,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         if(uploadCurrent.getUserID().equals(user.getUid()))
         {
             holder.textViewName.setText(uploadCurrent.getName());
-            holder.textViewMood.setText(uploadCurrent.getMood()); // Set the mood value
+            holder.textViewMood.setText("Mood: " + uploadCurrent.getMood()); // Set the mood value
             Picasso.with(mContext)
                     .load(uploadCurrent.getImageUrl())
                     .fit()
@@ -64,6 +64,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         holder.itemView.setTag(position);
 
     }
+
 
 
     @Override
@@ -93,6 +94,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewMood = itemView.findViewById(R.id.textViewMood);
             imageView = itemView.findViewById(R.id.imageViewUpload);
+
         }
     }
 }
